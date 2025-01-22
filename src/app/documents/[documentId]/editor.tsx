@@ -15,6 +15,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import Image from '@tiptap/extension-image';
 import ImageResize from 'tiptap-extension-resize-image';
 import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link'
 
 import { useEditorStore } from "@/store/use-editor-store";
 
@@ -71,6 +72,11 @@ export const Editor = () => {
             Image,
             ImageResize,
             Underline,
+            Link.configure({
+                openOnClick: false,
+                autolink: true,
+                defaultProtocol: "https",
+            }),
         ],
         content: `
             <table>
