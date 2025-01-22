@@ -1,6 +1,8 @@
 'use client';
 
 import { useEditor, EditorContent } from '@tiptap/react';
+import { Color } from '@tiptap/extension-color';
+import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import FontFamily from '@tiptap/extension-font-family'
 import TaskItem from '@tiptap/extension-task-item';
@@ -53,6 +55,8 @@ export const Editor = () => {
         extensions: [
             StarterKit,
             FontFamily,
+            Color,
+            Highlight.configure({ multicolor: true }),
             TaskItem.configure({
                 nested: true,
             }),
