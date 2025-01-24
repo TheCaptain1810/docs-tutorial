@@ -17,6 +17,7 @@ import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link"
+import { useLiveblocksExtension, FloatingToolbar } from "@liveblocks/react-tiptap";
 
 import { useEditorStore } from "@/store/use-editor-store";
 import { FontSizeExtension } from "@/extensions/font-size";
@@ -24,6 +25,7 @@ import { LineHeightExtension } from "@/extensions/line-height";
 import { Ruler } from "./ruler";
 
 export const Editor = () => {
+    const liveblocks = useLiveblocksExtension();
     const { setEditor } = useEditorStore();
 
     const editor = useEditor({
@@ -59,7 +61,10 @@ export const Editor = () => {
             },
         },
         extensions: [
-            StarterKit,
+            liveblocks,
+            StarterKit.configure({
+                history: false,
+            }),
             FontSizeExtension,
             LineHeightExtension.configure({
                 types: ["heading", "paragraph"],
