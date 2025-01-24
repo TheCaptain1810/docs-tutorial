@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import { useMutation } from "convex/react";
 
@@ -51,6 +52,10 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
                             e.stopPropagation();
                             setIsRemoving(true);
                             remove({id: documentId })
+                                .catch(() => toast.error("Failed to delete document."))
+                                .then(() => {
+                                    toast.success("Document deleted successfully.");
+                                })
                                 .finally(() => {
                                     setIsRemoving(false);
                                 });
