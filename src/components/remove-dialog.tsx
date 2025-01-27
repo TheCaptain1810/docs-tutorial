@@ -18,6 +18,7 @@ import {
 
 import { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
+import { redirect } from "next/navigation";
 
 interface RemoveDialogProps {
     documentId: Id<"documents">;
@@ -55,6 +56,7 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
                                 .catch(() => toast.error("Failed to delete document."))
                                 .then(() => {
                                     toast.success("Document deleted successfully.");
+                                    redirect("/");
                                 })
                                 .finally(() => {
                                     setIsRemoving(false);
