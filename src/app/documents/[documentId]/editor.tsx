@@ -134,7 +134,7 @@ export const Editor = ({ initialContent, documentId }: EditorProps) => {
         }, autoSaveInterval);
 
         return () => clearInterval(interval);
-    }, [editor, createVersion, documentId]);
+    }, [editor, createVersion, documentId, autoSaveInterval]);
 
     return (
         <div className="size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
