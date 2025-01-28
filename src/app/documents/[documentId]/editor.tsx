@@ -120,7 +120,7 @@ export const Editor = ({ initialContent, documentId }: EditorProps) => {
     });
     
     const createVersion = useMutation(api.documents.createVersion);
-    const autoSaveInterval = 5 * 60 * 1000; // 5 minutes
+    const autoSaveInterval = 30 * 60 * 1000; // 30 minutes
 
     useEffect(() => {
         if (!editor) return;
