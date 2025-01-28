@@ -156,3 +156,46 @@ export const getById = query({
     return document;
   },
 });
+
+// Add version to a document
+export const createVersion = mutation({
+  args: { 
+    documentId: v.id("documents"),
+    content: v.string(),
+    title: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) {
+      throw new ConvexError("Unauthorized!");
+    }
+
+    const document = await ctx.db.get(args.documentId);
+    if (!document) {
+      throw new ConvexError("Document not found!");
+    }
+
+    return await ctx.db.insert("versions", {
+      documentId: args.documentId,
+      content: args.content,
+      title: args.title,
+      authorId: user.subject,
+      authorName: user.name ?? "Unknown",
+      timestamp: Date.now(),
+    });
+  },
+});
+
+// Get versions for a document
+export const getVersions = query({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    const versions = await ctx.db
+      .query("versions")
+      .filter((q) => q.eq(q.field("documentId"), args.documentId))
+      .order("desc")
+      .collect();
+
+    return versions;
+  },
+});

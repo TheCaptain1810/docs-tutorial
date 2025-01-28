@@ -14,5 +14,13 @@ export default defineSchema({
         .searchIndex("search_title", {
             searchField: "title",
             filterFields: ["ownerId", "organizationId"],
-        })
+        }),
+    versions: defineTable({
+        documentId: v.id("documents"),
+        content: v.string(),
+        title: v.string(),
+        authorId: v.string(),
+        authorName: v.string(),
+        timestamp: v.number(),
+    }),
 });
