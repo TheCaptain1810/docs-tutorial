@@ -19,6 +19,8 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link"
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useStorage } from "@liveblocks/react";
+import { useMutation } from "convex/react";
+import { useEffect } from "react";
 
 import { useEditorStore } from "@/store/use-editor-store";
 import { FontSizeExtension } from "@/extensions/font-size";
@@ -28,12 +30,15 @@ import { Ruler } from "./ruler";
 import { Threads } from "./threads";
 
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
+import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 interface EditorProps {
     initialContent: string | undefined;
+    documentId: Id<"documents">;
 };
 
-export const Editor = ({ initialContent }: EditorProps) => {
+export const Editor = ({ initialContent, documentId }: EditorProps) => {
     const leftMargin = useStorage((root) => root.leftMargin);
     const rightMargin = useStorage((root) => root.rightMargin);
 
@@ -114,6 +119,23 @@ export const Editor = ({ initialContent }: EditorProps) => {
         ],
     });
     
+    const createVersion = useMutation(api.documents.createVersion);
+    const autoSaveInterval = 5 * 60 * 1000; // 5 minutes
+
+    useEffect(() => {
+        if (!editor) return;
+        
+        const interval = setInterval(() => {
+            createVersion({
+                documentId,
+                content: JSON.stringify(editor.getJSON()),
+                title: "Auto-save",
+            });
+        }, autoSaveInterval);
+
+        return () => clearInterval(interval);
+    }, [editor, createVersion, documentId]);
+
     return (
         <div className="size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
             <Ruler />

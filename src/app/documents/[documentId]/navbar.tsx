@@ -49,6 +49,7 @@ import { api } from "../../../../convex/_generated/api";
 
 import { RenameDialog } from "@/components/rename-dialog";
 import { RemoveDialog } from "@/components/remove-dialog";
+import { VersionHistory } from "@/components/version-history";
 
 interface NavbarProps {
     data: Doc<"documents">;
@@ -120,6 +121,7 @@ export const Navbar = ({ data }: NavbarProps) => {
                 <div className="flex flex-col">
                     <DocumentInput title={data.title} id={data._id} />
                     <div className="flex">
+                        <VersionHistory documentId={data._id} />
                         <Menubar className="border-none bg-transparent shadow-none h-auto p-0" >
                             <MenubarMenu>
                                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
