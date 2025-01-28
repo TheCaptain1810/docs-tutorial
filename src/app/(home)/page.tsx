@@ -2,6 +2,7 @@
 
 import { usePaginatedQuery } from "convex/react";
 import { useSearchParam } from "@/hooks/use-search-param";
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
 import { Navbar } from "./navbar";
 import { TemplatesGallery } from "./templates-gallery";
@@ -35,4 +36,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withPageAuthRequired(Home);

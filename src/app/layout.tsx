@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Toaster } from "@/components/ui/sonner";
 
 import "@liveblocks/react-ui/styles.css";
@@ -25,16 +26,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={inter.className}
-      >
-        <NuqsAdapter>
-          <ConvexClientProvider>
-            <Toaster />
-            {children}
-          </ConvexClientProvider>
-        </NuqsAdapter>
-      </body>
+      <UserProvider>
+        <body
+          className={inter.className}
+        >
+          <NuqsAdapter>
+            <ConvexClientProvider>
+              <Toaster />
+              {children}
+            </ConvexClientProvider>
+          </NuqsAdapter>
+        </body>
+      </UserProvider>
     </html>
   );
 }

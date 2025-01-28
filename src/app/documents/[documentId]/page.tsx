@@ -1,5 +1,6 @@
 import { preloadQuery } from "convex/nextjs";
 import { auth } from "@clerk/nextjs/server";
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
@@ -9,7 +10,7 @@ interface DocumentIdPageProps {
   params: Promise<{ documentId: Id<"documents"> }>;
 };
 
-const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
+export default withPageAuthRequired(async function DocumentIdPage({ params }: DocumentIdPageProps) {
   const { documentId } = await params;
 
   const { getToken } = await auth();
@@ -27,6 +28,8 @@ const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
 
 
   return <Document preloadedDocument={preloadedDocument} />;
-};
-
-export default DocumentIdPage;
+}, {
+  returnTo({ params }) {
+    return `/documents/${params?.documentId}`
+  }
+});

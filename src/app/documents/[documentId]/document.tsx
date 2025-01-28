@@ -1,6 +1,7 @@
 "use client";
 
 import { Preloaded, usePreloadedQuery } from "convex/react";
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
 import { Editor } from "./editor";
 import { Toolbar } from "./toolbar";
@@ -29,3 +30,5 @@ export const Document = ({ preloadedDocument }: DocumentProps) => {
         </Room>
     );
 };
+
+withPageAuthRequired(Document);
