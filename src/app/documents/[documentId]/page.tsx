@@ -5,6 +5,12 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
 import { Document } from "./document";
 
+export async function generateMetadata() {
+  return {
+    title: "Document editor",
+  };
+};
+
 interface DocumentIdPageProps {
   params: Promise<{ documentId: Id<"documents"> }>;
 };
